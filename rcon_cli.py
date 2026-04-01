@@ -60,13 +60,13 @@ def connect_and_login(): # initial connect and login to server
     response_id, response_type, payload = read_rcon_packet(sock)
     if response_id == -1:
         if DEBUG:
-            print (f"[DEBUG] Response ID: {response_id}")
+            print (f"[DEBUG] Login Response ID: {response_id}")
         print("Login failed \n")
         sock.close()
         return None
     else:
         if DEBUG:
-            print (f"[DEBUG] Response ID: {response_id}")
+            print (f"[DEBUG] Login Response ID: {response_id}")
         print("Login successful \n")
         return sock
 
