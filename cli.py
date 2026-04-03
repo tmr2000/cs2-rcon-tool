@@ -1,3 +1,4 @@
+import socket
 from cs2rcon import CS2RCON
 
 rcon = CS2RCON()
