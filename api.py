@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from cs2rcon import CS2RCON  
 
 app = Flask(__name__)
@@ -6,6 +6,10 @@ rcon = CS2RCON()
 if not rcon.connect_and_login():
     print("Failed to connect to server")
     exit(1)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/send_command", methods=["GET"])
 def send_command():
