@@ -1,0 +1,88 @@
+// JS: Logic to talk to your Flask app
+async function sendCommand(customCmd = null) {
+    const input = document.getElementById('cmdInput');
+    const output = document.getElementById('console-output');
+
+    // Use the button command if provided, otherwise grab from text box
+    const command = customCmd || input.value;
+
+    if (!command) return;
+
+    // Show what we sent in the console
+    output.innerHTML += `\n<span style="color: #aaa;">> ${command}</span>`;
+
+    try {
+        // This calls your Flask @app.route("/send_command")
+        const response = await fetch(`/send_command?cmd=${encodeURIComponent(command)}`);
+        const data = await response.json();
+
+        if (data.response) {
+            output.innerHTML += `\n${data.response}`;
+        } else if (data.error) {
+            output.innerHTML += `\n<span style="color: red;">Error: ${data.error}</span>`;
+        }
+    } catch (err) {
+        output.innerHTML += `\n<span style="color: red;">Network Error: Could not reach Flask server.</span>`;
+    }
+
+    // Auto-scroll to the bottom
+    output.scrollTop = output.scrollHeight;
+
+    // Clear input if it was a manual command
+    if (!customCmd) input.value = '';
+}
+
+function runPreset(cmd) {
+    sendCommand(cmd);
+}
+
+async function updateLiveStats() {
+    const statusLabel = document.getElementById('status-text');
+    const mapLabel = document.getElementById('map-name');
+    const playerLabel = document.getElementById('player-count');
+
+    try {
+        const response = await fetch(`/send_command?cmd=status`);
+
+        // If the fetch fails or server returns error
+        if (!response.ok) throw new Error("Server Unreachable");
+
+        const data = await response.json();
+
+        if (data.response) {
+            const raw = data.response;
+
+            // 1. Force Status to Online (Resetting the "Offline" stickiness)
+            statusLabel.innerText = "Online";
+            statusLabel.style.color = "#00ff00";
+
+            // 2. CS2 Map Parsing (Looking for the spawngroup pattern)
+            // Pattern: SV: [1: de_inferno |
+            const mapMatch = raw.match(/SV:\s*\[\d+:\s*([^\|\s\]]+)/i);
+            if (mapMatch && mapMatch[1]) {
+                // This will strip "maps/prefabs/" if it exists and just show the name
+                let mapName = mapMatch[1].split('/').pop();
+                mapLabel.innerText = mapName;
+            }
+
+            // 3. Player Parsing (Looking for "0 humans, 2 bots")
+            const humansMatch = raw.match(/(\d+)\s*humans/i);
+            const botsMatch = raw.match(/(\d+)\s*bots/i);
+
+            if (humansMatch && botsMatch) {
+                const total = parseInt(humansMatch[1]) + parseInt(botsMatch[1]);
+                playerLabel.innerText = `${total} (${humansMatch[1]}H / ${botsMatch[1]}B)`;
+            }
+        }
+    } catch (err) {
+        // If fetch fails or rcon connection is dead
+        statusLabel.innerText = "Offline";
+        statusLabel.style.color = "red";
+        mapLabel.innerText = "---";
+        playerLabel.innerText = "0/0";
+    }
+}
+// Update stats every 10 seconds
+setInterval(updateLiveStats, 10000);
+// Run once on page load
+updateLiveStats();

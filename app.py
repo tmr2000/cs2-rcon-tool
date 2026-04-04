@@ -1,5 +1,9 @@
 from flask import Flask, request, jsonify, render_template
-from cs2rcon import CS2RCON  
+from cs2rcon import CS2RCON
+import logging
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 rcon = CS2RCON()
@@ -7,7 +11,7 @@ if not rcon.connect_and_login():
     print("Failed to connect to server")
     exit(1)
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     return render_template("index.html")
 

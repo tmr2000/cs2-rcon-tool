@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <head>
     <meta charset="UTF-8">
-    <title>CS2 RCON Web UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Server Admin Panel</title>
 </head>
 <body>
-    <h1>CS2 RCON Web UI</h1>
-    
-    <input type="text" id="command" placeholder="Enter RCON command">
-    <button onclick="sendCommand()">Send</button>
-    
-    <pre id="response"></pre>
 
-    <script src="/static/main.js"></script>
+    <div class="container">
+        <h1>CS2 Server Admin Panel</h1>
+
+        <div class="stats-bar">
+            <div class="stat-item">Server Status: <span id="status-text" style="color: #00ff00;">Online</span></div>
+            <div class="stat-item">Current Map: <span id="map-name">Loading...</span></div>
+            <div class="stat-item">Players: <span id="player-count">0/0</span></div>
+        </div>
+
+        <div id="console-output">></div>
+
+        <div class="controls">
+            <input type="text" id="cmdInput" placeholder="Enter command" onkeydown="if(event.key==='Enter') sendCommand()">
+            <button onclick="sendCommand()">Send</button>
+            <button style="background-color: #444;" onclick="document.getElementById('console-output').innerHTML = '>'">Clear</button>
+        </div>
+
+        <div class="presets-container">
+            <div class="preset-group">
+                <h4>Match Control</h4>
+                <button class="btn-preset" onclick="runPreset('mp_restartgame 1')">Restart Match</button>
+                <button class="btn-preset" onclick="runPreset('mp_pause_match')">Pause</button>
+                <button class="btn-preset" onclick="runPreset('mp_unpause_match')">Unpause</button>
+                <button class="btn-preset" onclick="runPreset('mp_swapteams')">Swap Teams</button>
+            </div>
+
+            <div class="preset-group">
+                <h4>Warmup</h4>
+                <button class="btn-preset" onclick="runPreset('mp_warmup_start')">Start Warmup</button>
+                <button class="btn-preset" onclick="runPreset('mp_warmup_end')">End Warmup</button>
+            </div>
+
+            <div class="preset-group">
+                <h4>Bots</h4>
+                <button class="btn-preset" onclick="runPreset('bot_kick')">Kick Bots</button>
+                <button class="btn-preset" onclick="runPreset('bot_add t')">Add Bot T</button>
+                <button class="btn-preset" onclick="runPreset('bot_add ct')">Add Bot CT</button>
+            </div>
+
+            <div class="preset-group">
+                <h4>Map Select</h4>
+                <select id="mapSelect" onchange="if(this.value) { runPreset('map ' + this.value); this.selectedIndex = 0; }">
+                    <option value="" disabled selected hidden>Competitive ▾</option>
+                    <option value="de_ancient">Ancient</option>
+                    <option value="de_anubis">Anubis</option>
+                    <option value="de_dust2">Dust II</option>
+                    <option value="de_inferno">Inferno</option>
+                    <option value="de_mirage">Mirage</option>
+                    <option value="de_nuke">Nuke</option>
+                    <option value="de_overpass">Overpass</option>
+                    <option value="de_train">Train</option>
+                    <option value="de_vertigo">Vertigo</option>
+                </select>
+                </select>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
 </html>
