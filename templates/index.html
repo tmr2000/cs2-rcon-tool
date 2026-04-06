@@ -29,15 +29,17 @@
             <div class="preset-group">
                 <h4>Match Control</h4>
                 <button class="btn-preset" onclick="runPreset('mp_restartgame 1')">Restart Match</button>
-                <button class="btn-preset" onclick="runPreset('mp_pause_match')">Pause</button>
-                <button class="btn-preset" onclick="runPreset('mp_unpause_match')">Unpause</button>
                 <button class="btn-preset" onclick="runPreset('mp_swapteams')">Swap Teams</button>
+                <button class="btn-preset" onclick="runPreset('mp_pause_match')">Pause Match</button>
+                <button class="btn-preset" onclick="runPreset('mp_unpause_match')">Unpause Match</button>
             </div>
 
             <div class="preset-group">
                 <h4>Warmup</h4>
-                <button class="btn-preset" onclick="runPreset('mp_warmup_start')">Start Warmup</button>
+                <button class="btn-preset" onclick="runPreset('mp_warmup_start; mp_warmup_pausetimer 1')">Start Warmup</button>
                 <button class="btn-preset" onclick="runPreset('mp_warmup_end')">End Warmup</button>
+                <button class="btn-preset" onclick="runPreset('mp_warmup_start; mp_warmup_pausetimer 1')">Knife Only</button>
+                <button class="btn-preset" onclick="runPreset('mp_warmup_end')">End Knife Only</button>
             </div>
 
             <div class="preset-group">
@@ -48,23 +50,44 @@
             </div>
 
             <div class="preset-group">
-                <h4>Map Select</h4>
-                <select id="mapSelect" onchange="if(this.value) { runPreset('map ' + this.value); this.selectedIndex = 0; }">
-                    <option value="" disabled selected hidden>Competitive ▾</option>
-                    <option value="de_ancient">Ancient</option>
-                    <option value="de_anubis">Anubis</option>
-                    <option value="de_dust2">Dust II</option>
-                    <option value="de_inferno">Inferno</option>
-                    <option value="de_mirage">Mirage</option>
-                    <option value="de_nuke">Nuke</option>
-                    <option value="de_overpass">Overpass</option>
-                    <option value="de_train">Train</option>
-                    <option value="de_vertigo">Vertigo</option>
-                </select>
-                </select>
+                <h4>Placeholder</h4>
+                <button class="btn-preset" onclick="runPreset('')">Placeholder</button>
+            </div>
+
+            <div class="preset-group">
+                <h4>Placeholder</h4>
+                <button class="btn-preset" onclick="runPreset('')">Placeholder</button>
             </div>
         </div>
-    </div>
+        <div class="launcher-row"> 
+        <h4>Match Launcher</h4>
+            <div class="launcher-controls">
+                <div class="launcher-item">
+                    <select id="launchMap">
+                        <option value="" disabled selected hidden>Choose Map...</option>
+                        <option value="de_ancient">Ancient</option>
+                        <option value="de_anubis">Anubis</option>
+                        <option value="de_dust2">Dust II</option>
+                        <option value="de_inferno">Inferno</option>
+                        <option value="de_mirage">Mirage</option>
+                        <option value="de_nuke">Nuke</option>
+                        <option value="de_overpass">Overpass</option>
+                        <option value="de_train">Train</option>
+                        <option value="de_vertigo">Vertigo</option>
+                    </select>
+                </div> 
+                <div class="launcher-item">
+                    <select id="launchMode">
+                        <option value="" disabled selected hidden>Choose Mode...</option>
+                        <option value="0,1">Competitive</option>
+                        <option value="0,0">Casual</option>
+                        <option value="1,2">Deathmatch</option>
+                        <option value="1,0">Arms Race</option>
+                    </select>
+                </div> 
+                <button class="btn-preset btn-launch" onclick="buildAndLaunch()">START MATCH</button>
+            </div> 
+        </div>
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
 </html>

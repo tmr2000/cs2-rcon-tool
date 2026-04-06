@@ -51,7 +51,6 @@ button {
     padding: 10px 20px;
     cursor: pointer;
     background-color: #cf5e14;
-    /* CS2 Orange-ish */
     border: none;
     color: white;
     font-weight: bold;
@@ -70,18 +69,22 @@ button:hover {
 
 .btn-preset {
     background-color: #444;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: 0.5px;
     font-size: 0.8em;
     width: 140px;
-    /* Forces all buttons to be the same size */
 }
 
 .presets-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 14px;
+    background: #2a2a2a;
     margin-top: 20px;
-    border-top: 1px solid #333;
-    padding-top: 20px;
+    border: 1px solid #444;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
 }
 
 .preset-group h4 {
@@ -90,9 +93,7 @@ button:hover {
     font-size: 0.9em;
     text-transform: uppercase;
     text-align: center;
-    /* Ensures the text itself is centered */
     width: 100%;
-    /* Spans the full width of the group */
 }
 
 .preset-group {
@@ -100,7 +101,6 @@ button:hover {
     flex-direction: column;
     gap: 5px;
     align-items: center;
-    /* This centers the buttons and header horizontally */
     min-width: 120px;
 }
 
@@ -112,7 +112,6 @@ button:hover {
     border-radius: 5px;
     margin-bottom: 20px;
     border-left: 5px solid #cf5e14;
-    /* CS2 Orange accent */
     width: 100%;
     box-sizing: border-box;
 }
@@ -124,38 +123,154 @@ button:hover {
 
 #mapSelect {
     background-color: #444;
-    /* Same as .btn-preset */
     color: white;
     border: none;
     padding: 10px 20px;
-    /* Same padding as your buttons */
     border-radius: 4px;
     font-size: 0.8em;
     font-weight: bold;
     cursor: pointer;
     width: 140px;
-    /* Matching the fixed width we set for buttons */
     text-align: center;
     appearance: none;
-    /* Removes default browser arrow */
     -webkit-appearance: none;
 }
 
 #mapSelect:hover {
     background-color: #cf5e14;
-    /* Subtle hover effect */
     color: white;
 }
 
 #mapSelect option {
     background-color: #222;
-    /* Keep the list background dark */
     color: white;
     padding: 10px;
 }
 
-/* Optional: Add a little container arrow if you want it to look like a menu */
 .select-wrapper {
     position: relative;
     display: inline-block;
+}
+
+.preset-group select {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+}
+
+.preset-group select:hover {
+    background-color: #cf5e14;
+}
+
+.launcher-row {
+    margin-top: 20px;
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.launcher-row h4 {
+    margin: 0;
+    color: #cf5e14;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    width: 100%;
+    display: flex !important;
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 15px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+.launcher-item {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+.launcher-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.btn-launch {
+    flex: 0.5;
+    height: 40px !important;
+    background-color: #2e7d32 !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: white;
+}
+
+.btn-launch:hover {
+    background-color: #388e3c;
+}
+
+select {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: 0.5px;
+    font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+select:hover {
+    background-color: #cf5e14;
+}
+
+select option {
+    background-color: #222;
+    color: white;
+}
+
+.launcher-item {
+    position: relative;
+}
+
+.launcher-item select {
+    width: 100% !important;
+    height: 40px !important;
+    padding-right: 30px !important;
+
+.launcher-item::after {
+    content: '▾';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+    font-size: 1.2em;
 }

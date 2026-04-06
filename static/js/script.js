@@ -82,6 +82,34 @@ async function updateLiveStats() {
         playerLabel.innerText = "0/0";
     }
 }
+
+function buildAndLaunch() {
+    const map = document.getElementById('launchMap').value;
+    const modeValue = document.getElementById('launchMode').value;
+    
+    if (!map) {
+        alert("Please select a map first!");
+        return;
+    }
+
+    if (!modeValue) {
+        alert("Please select a game mode first!");
+        return;
+    }
+
+    // Split the "0,1" into type=0 and mode=1
+    const [type, mode] = modeValue.split(',');
+
+    // Construct the command: Change settings FIRST, then load the map
+    // We use semicolons (;) to send multiple commands at once
+    const finalCmd = `game_type ${type}; game_mode ${mode}; map ${map}`;
+    
+    console.log("Executing Launch:", finalCmd);
+    
+    // Use your existing send function
+    runPreset(finalCmd);
+}
+
 // Update stats every 10 seconds
 setInterval(updateLiveStats, 10000);
 // Run once on page load
