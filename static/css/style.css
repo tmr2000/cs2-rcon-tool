@@ -226,6 +226,7 @@ button:hover {
 }
 
 .btn-launch:hover {
+    background-color: #01ff0d;
     background-color: #388e3c;
 }
 
@@ -263,6 +264,7 @@ select option {
     width: 100% !important;
     height: 40px !important;
     padding-right: 30px !important;
+}
 
 .launcher-item::after {
     content: '▾';
