@@ -5,11 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS2 Server Admin Panel</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='/img/favicon.svg') }}">
 </head>
 <body>
 
     <div class="container">
-        <h1>CS2 Server Admin Panel</h1>
+        <h1 class="logo-title">
+            <svg class="admin-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#151515;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#bgGradient)" stroke="#444" stroke-width="2"/>
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#00ffff" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.6"/>
+                <line x1="50" y1="15" x2="50" y2="30" stroke="#00ffff" stroke-width="2" opacity="0.8"/>
+                <line x1="50" y1="70" x2="50" y2="85" stroke="#00ffff" stroke-width="2" opacity="0.8"/>
+                <line x1="15" y1="50" x2="30" y2="50" stroke="#00ffff" stroke-width="2" opacity="0.8"/>
+                <line x1="70" y1="50" x2="85" y2="50" stroke="#00ffff" stroke-width="2" opacity="0.8"/>
+
+                <polyline points="35,35 55,50 35,65" fill="none" stroke="#cf5e14" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="60" y1="65" x2="75" y2="65" stroke="#cf5e14" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+            CS2 Server Admin Panel
+        </h1>
 
         <div class="stats-bar">
             <div class="stat-item">Server Status: <span id="status-text" style="color: #00ff00;">Online</span></div>
@@ -26,37 +46,27 @@
         </div>
 
         <div class="presets-container">
+            <h4>Match Control</h4>
             <div class="preset-group">
-                <h4>Match Control</h4>
                 <button class="btn-preset" onclick="runPreset('mp_restartgame 1')">Restart Match</button>
                 <button class="btn-preset" onclick="runPreset('mp_swapteams')">Swap Teams</button>
                 <button class="btn-preset" onclick="runPreset('mp_pause_match')">Pause Match</button>
                 <button class="btn-preset" onclick="runPreset('mp_unpause_match')">Unpause Match</button>
             </div>
 
+            <h4>Warmup</h4>
             <div class="preset-group">
-                <h4>Warmup</h4>
                 <button class="btn-preset" onclick="runPreset('mp_warmup_start; mp_warmup_pausetimer 1')">Start Warmup</button>
                 <button class="btn-preset" onclick="runPreset('mp_warmup_end')">End Warmup</button>
-                <button class="btn-preset" onclick="runPreset('mp_warmup_start; mp_warmup_pausetimer 1')">Knife Only</button>
-                <button class="btn-preset" onclick="runPreset('mp_warmup_end')">End Knife Only</button>
+                <button class="btn-preset" onclick="runPreset('mp_warmuptime 0; mp_warmup_end; mp_ct_default_secondary \'\'; mp_t_default_secondary \'\'; mp_free_armor 1; mp_give_player_c4 0; mp_maxmoney 0; mp_startmoney 0; mp_roundtime 1.92; mp_restartgame 1;')">Start Knife Round</button>
+                <button class="btn-preset" onclick="runPreset('mp_ct_default_secondary weapon_hkp2000; mp_t_default_secondary weapon_glock; mp_free_armor 0; mp_give_player_c4 1; mp_maxmoney 16000; mp_startmoney 800; mp_roundtime 1.92; mp_freezetime 15; mp_restartgame 1;')">End Knife Round</button>
             </div>
 
+            <h4>Bots</h4>
             <div class="preset-group">
-                <h4>Bots</h4>
                 <button class="btn-preset" onclick="runPreset('bot_kick')">Kick Bots</button>
                 <button class="btn-preset" onclick="runPreset('bot_add t')">Add Bot T</button>
                 <button class="btn-preset" onclick="runPreset('bot_add ct')">Add Bot CT</button>
-            </div>
-
-            <div class="preset-group">
-                <h4>Placeholder</h4>
-                <button class="btn-preset" onclick="runPreset('')">Placeholder</button>
-            </div>
-
-            <div class="preset-group">
-                <h4>Placeholder</h4>
-                <button class="btn-preset" onclick="runPreset('')">Placeholder</button>
             </div>
         </div>
         <div class="launcher-row"> 

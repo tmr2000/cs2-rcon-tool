@@ -21,10 +21,8 @@ body {
     padding: 15px;
     margin-bottom: 20px;
     white-space: pre-wrap;
-    /* Keeps the CS2 formatting */
     border-radius: 5px;
     color: #00ff00;
-    /* Classic Terminal Green */
     font-size: 12px;
 }
 
@@ -35,12 +33,13 @@ body {
 }
 
 .controls button:last-child:hover {
-    background-color: #cf5e14 !important;
+    background-color: #ff7417 !important;
 }
 
 input[type="text"] {
     flex-grow: 1;
     padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
     background: #222;
     border: 1px solid #444;
     color: white;
@@ -71,37 +70,50 @@ button:hover {
     background-color: #444;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     letter-spacing: 0.5px;
-    font-size: 0.8em;
-    width: 140px;
+    font-size: 0.85em;
+    font-weight: bold;
+    height: 40px;
+    width: 100%; /* Spans the full width of the grid cell */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
+    box-sizing: border-box;
 }
+
 
 .presets-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    background: #2a2a2a;
     margin-top: 20px;
-    border: 1px solid #444;
+    background: #2a2a2a;
     padding: 20px;
-    box-sizing: border-box;
     border-radius: 8px;
+    border: 1px solid #444;
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: flex-start;
 }
 
-.preset-group h4 {
-    margin: 0 0 10px 0;
+.presets-container h4 {
+    margin: 0 0 0 0;
     color: #cf5e14;
-    font-size: 0.9em;
+    font-size: 0.85em;
     text-transform: uppercase;
-    text-align: center;
-    width: 100%;
+    text-align: left;
 }
 
 .preset-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-    min-width: 120px;
+    display: grid;
+    /* This creates 4 equal columns. Change to '1fr 1fr 1fr' for 3 columns */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px;
+    width: 100%;
 }
 
 .stats-bar {
@@ -137,7 +149,7 @@ button:hover {
 }
 
 #mapSelect:hover {
-    background-color: #cf5e14;
+    background-color: #ff7417;
     color: white;
 }
 
@@ -165,7 +177,7 @@ button:hover {
 }
 
 .preset-group select:hover {
-    background-color: #cf5e14;
+    background-color: #ff7417;
 }
 
 .launcher-row {
@@ -182,8 +194,10 @@ button:hover {
     align-items: flex-start;
 }
 
+
+
 .launcher-row h4 {
-    margin: 0;
+    margin: 0 0 0 0;
     color: #cf5e14;
     font-size: 0.85em;
     text-transform: uppercase;
@@ -226,8 +240,7 @@ button:hover {
 }
 
 .btn-launch:hover {
-    background-color: #01ff0d;
-    background-color: #388e3c;
+    background-color: #01ff0d !important;
 }
 
 select {
@@ -248,16 +261,12 @@ select {
 }
 
 select:hover {
-    background-color: #cf5e14;
+    background-color: #ff7417;
 }
 
 select option {
     background-color: #222;
     color: white;
-}
-
-.launcher-item {
-    position: relative;
 }
 
 .launcher-item select {
@@ -275,4 +284,22 @@ select option {
     color: #888;
     pointer-events: none;
     font-size: 1.2em;
+}
+
+/* Styling for the Logo and Title container */
+.logo-title {
+    display: flex;
+    align-items: center; /* Vertically center the logo and text */
+    gap: 15px; /* Space between logo and text */
+    margin-bottom: 25px;
+    font-size: 2.2em; /* Ensure title is prominent */
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace; /* Maintain theme */
+}
+
+/* Specific styling for the embedded SVG logo */
+.admin-logo {
+    height: 1.75em; /* Set the height to match the text size */
+    width: auto; /* Maintain the image aspect ratio */
+    display: block; /* Prevents alignment issues */
 }
