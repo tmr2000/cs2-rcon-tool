@@ -1,6 +1,8 @@
 # CS2 RCON Web Panel
 
-A lightweight, web-based RCON administration panel for Counter-Strike 2 servers. This project allows you to manage your server console via a browser using a secure, dockerized Flask application.
+A lightweight, web-based RCON administration panel for Counter-Strike 2 servers. This project allows you to manage your server console via a browser using a secure, dockerized Flask application. 
+
+Project is still under development and should not be considered production ready. All features are subject to change
 
 ## Features
 - **Real-time Console:** Send RCON commands and view server responses.
