@@ -132,7 +132,13 @@ function buildAndLaunch() {
     document.getElementById('launchMode').selectedIndex = 0;
 }
 
-// Update stats every 10 seconds
-setInterval(updateLiveStats, 10000);
+document.getElementById('clearBtn').addEventListener('click', function() {
+    const consoleOutput = document.getElementById('console-output');
+    consoleOutput.innerHTML = '>';
+});
+
+
+// Update stats every 5 seconds
+setInterval(updateLiveStats, 5000);
 // Run once on page load
 updateLiveStats();

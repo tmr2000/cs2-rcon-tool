@@ -72,7 +72,6 @@ body {
 }
 
 .nav-link:hover, .nav-link.active { color: #fff; }
-.nav-link.active { border-bottom: 2px solid #fff; padding-bottom: 5px; }
 
 /* --- 3. CONSOLE & INPUTS --- */
 #console-output {
@@ -114,6 +113,22 @@ button, select {
 button { background-color: #cf5e14; }
 button:hover { background-color: #ff7417; }
 
+.launcher-item select:hover, 
+.preset-group select:hover,
+select:hover { 
+    background-color: #ff7417 !important; 
+    color: white;
+}
+
+select option {
+    background-color: #222 !important;
+    color: white !important;
+}
+
+.launcher-item select option:hover {
+    background-color: #333 !important;
+}
+
 .btn-preset {
     background-color: #444;
     font-family: 'Segoe UI', sans-serif;
@@ -138,6 +153,16 @@ select {
     appearance: none;
     -webkit-appearance: none;
     text-align: center;
+}
+
+.btn-clear {
+    background-color: #444 !important; /* Your default grey */
+    transition: background-color 0.2s ease;
+}
+
+.btn-clear:hover {
+    background-color: #ff7417 !important; /* Flashes orange on hover */
+    color: white;
 }
 
 /* --- 5. CONTAINERS & GROUPS --- */
