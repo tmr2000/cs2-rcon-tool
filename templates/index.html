@@ -8,8 +8,24 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='/img/favicon.svg') }}">
 </head>
 <body>
-
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">
+            <img src="{{ url_for('static', filename='/img/favicon.svg') }}" class="logo-img">
+            CS2<span>PANEL</span></span>
+            <a href="/" class="nav-link active">Dashboard</a>
+            <a href="/workshop_manager" class="nav-link">Map Manager</a>
+        </div>
+        <div class="nav-right">
+            <div id="connection-status" class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="nav-text">CONNECTING...</span>
+            </div>
+        </div>
+    </nav>
+    
     <div class="container">
+    <!--
         <h1 class="logo-title">
             <svg class="admin-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -30,13 +46,12 @@
             </svg>
             CS2 Server Admin Panel
         </h1>
-
+        
         <div class="stats-bar">
-            <div class="stat-item">Server Status: <span id="status-text" style="color: #00ff00;">Online</span></div>
             <div class="stat-item">Current Map: <span id="map-name">Loading...</span></div>
             <div class="stat-item">Players: <span id="player-count">0/0</span></div>
         </div>
-
+        -->
         <div id="console-output">></div>
 
         <div class="controls">

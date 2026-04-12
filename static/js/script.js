@@ -17,7 +17,11 @@ async function sendCommand(customCmd = null) {
         const data = await response.json();
 
         if (data.response) {
-            output.innerHTML += `\n${data.response}`;
+            if (data.response.startsWith("Error:")) {
+                output.innerHTML += `\n<span style="color: #ff4444;">${data.response}</span>`;
+            } else {
+                output.innerHTML += `\n${data.response}`;
+            }
         } else if (data.error) {
             output.innerHTML += `\n<span style="color: red;">Error: ${data.error}</span>`;
         }
@@ -37,49 +41,64 @@ function runPreset(cmd) {
 }
 
 async function updateLiveStats() {
-    const statusLabel = document.getElementById('status-text');
-    const mapLabel = document.getElementById('map-name');
+
+    const connectionBox = document.getElementById('connection-status'); // The Wrapper
+    const navText = document.getElementById('nav-text'); // The specific text span
+     // 3 things in older box
+    //const mapLabel = document.getElementById('map-name');
     const playerLabel = document.getElementById('player-count');
 
     try {
         const response = await fetch(`/send_command?cmd=status`);
 
         // If the fetch fails or server returns error
-        if (!response.ok) throw new Error("Server Unreachable");
+        //if (!response.ok) throw new Error("Server Unreachable");
 
         const data = await response.json();
 
         if (data.response) {
             const raw = data.response;
 
-            // 1. Force Status to Online (Resetting the "Offline" stickiness)
-            statusLabel.innerText = "Online";
-            statusLabel.style.color = "#00ff00";
-
+            if (raw.startsWith("Error:")) {
+                connectionBox.className = "status-indicator offline";
+                navText.innerText = "SERVER DISCONNECTED";
+                //navText.style.color = "red";
+                //mapLabel.innerText = "---";
+                playerLabel.innerText = "0/0";
+                return;
+            }
+            else {
+                connectionBox.className = "status-indicator online";
+                navText.innerText = "SERVER CONNECTED";
+                navText.style.color = "#00ff00";
+            /*
             // 2. CS2 Map Parsing (Looking for the spawngroup pattern)
             // Pattern: SV: [1: de_inferno |
-            const mapMatch = raw.match(/SV:\s*\[\d+:\s*([^\|\s\]]+)/i);
-            if (mapMatch && mapMatch[1]) {
-                // This will strip "maps/prefabs/" if it exists and just show the name
-                let mapName = mapMatch[1].split('/').pop();
-                mapLabel.innerText = mapName;
-            }
+                const mapMatch = raw.match(/SV:\s*\[\d+:\s*([^\|\s\]]+)/i);
+                if (mapMatch && mapMatch[1]) {
+                    // This will strip "maps/prefabs/" if it exists and just show the name
+                    let mapName = mapMatch[1].split('/').pop();
+                    mapLabel.innerText = mapName;
+                }
 
             // 3. Player Parsing (Looking for "0 humans, 2 bots")
-            const humansMatch = raw.match(/(\d+)\s*humans/i);
-            const botsMatch = raw.match(/(\d+)\s*bots/i);
+                const humansMatch = raw.match(/(\d+)\s*humans/i);
+                const botsMatch = raw.match(/(\d+)\s*bots/i);
 
-            if (humansMatch && botsMatch) {
-                const total = parseInt(humansMatch[1]) + parseInt(botsMatch[1]);
-                playerLabel.innerText = `${total} (${humansMatch[1]}H / ${botsMatch[1]}B)`;
+                if (humansMatch && botsMatch) {
+                    const total = parseInt(humansMatch[1]) + parseInt(botsMatch[1]);
+                    playerLabel.innerText = `${total} (${humansMatch[1]}H / ${botsMatch[1]}B)`;
+                }
+                    */
             }
         }
     } catch (err) {
         // If fetch fails or rcon connection is dead
-        statusLabel.innerText = "Offline";
-        statusLabel.style.color = "red";
-        mapLabel.innerText = "---";
-        playerLabel.innerText = "0/0";
+            connectionBox.className = "status-indicator offline";
+            navText.innerText = "SERVER DISCONNECTED";
+            navText.style.color = "red";
+            //mapLabel.innerText = "---";
+            //playerLabel.innerText = "0/0";
     }
 }
 
@@ -108,6 +127,9 @@ function buildAndLaunch() {
     
     // Use your existing send function
     runPreset(finalCmd);
+
+    document.getElementById('launchMap').selectedIndex = 0;
+    document.getElementById('launchMode').selectedIndex = 0;
 }
 
 // Update stats every 10 seconds

@@ -7,9 +7,11 @@ log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 rcon = CS2RCON()
-if not rcon.connect_and_login():
-    print("Failed to connect to server")
-    exit(1)
+
+rcon.connect_and_login()
+#if not rcon.connect_and_login():
+#    print("Failed to connect to server")
+#    exit(1)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -18,6 +20,12 @@ def index():
 @app.route("/send_command", methods=["GET"])
 def send_command():
     cmd = request.args.get("cmd")  # get ?cmd=some_command
+
+    if rcon.sock is None:
+        print("Attempting to reconnect...")
+        rcon.connect_and_login()
+        return jsonify({"response": "Error: Server unreachable. Attempting reconnect"})
+
     if not cmd:
         return jsonify({"error": "No command provided"}), 400
 
@@ -25,6 +33,7 @@ def send_command():
         response = rcon.send_rcon_command(cmd)
         return jsonify({"response": response})
     except Exception as e:
+        rcon.sock = None
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

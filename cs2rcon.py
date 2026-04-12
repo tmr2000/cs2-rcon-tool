@@ -58,38 +58,70 @@ class CS2RCON:
         return response_id, response_type, payload
 
     def connect_and_login(self): # initial connect and login to server
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.settimeout(5)
-        self.sock.connect((self.server, self.port))
-        print(f"Connected to server: {self.server}:{self.port}")
-        self.sock.sendall(self.build_login_packet(self.next_request_id())) #
-        response_id, response_type, payload = self.read_rcon_packet()
-        if response_id == -1:
-            if self.DEBUG:
-                print (f"[DEBUG] Login Response ID: {response_id}")
-            print("Login failed \n")
-            self.sock.close()
+        if hasattr(self, 'sock') and self.sock:
+            try:
+                self.sock.shutdown(socket.SHUT_RDWR) # Kill send/receive immediately
+                self.sock.close()
+            except:
+                pass
+            self.sock = None
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.settimeout(2)
+            self.sock.connect((self.server, self.port))
+            print(f"Connected to server: {self.server}:{self.port}")
+            self.sock.sendall(self.build_login_packet(self.next_request_id())) #
+            response_id, response_type, payload = self.read_rcon_packet()
+            if response_id == -1:
+                if self.DEBUG:
+                    print (f"[DEBUG] Login Response ID: {response_id}")
+                print("Login failed \n")
+                self.sock.close()
+                return False
+            else:
+                if self.DEBUG:
+                    print (f"[DEBUG] Login Response ID: {response_id}")
+                print("Login successful \n")
+                return True
+        except Exception as errormsg:
+            print (f"Connection failed: {errormsg}")
+            self.sock = None
             return False
-        else:
-            if self.DEBUG:
-                print (f"[DEBUG] Login Response ID: {response_id}")
-            print("Login successful \n")
-            return True
 
     def send_rcon_command (self, command): # send rcon command to server, and return with full response
-        command_id = self.next_request_id()
-        self.sock.sendall(self.build_command_packet(command_id, command)) # send command
-        end_id = self.next_request_id()
-        self.sock.sendall(self.build_command_packet(end_id, "")) # send blank packet, to capture any overflow from command response - detailed on wiki
-        full_response = ""
-        while True: # loop reading packets forever until empty packet recieved (end of message)
-            response_id, response_type, response = self.read_rcon_packet()
-            if self.DEBUG:
-                print(f"[DEBUG] ID: {response_id}, Type: {response_type}, Response:\n{response.strip()}")
-            if response_id == end_id:
-                break
-            if response_id not in (command_id, end_id):
-                continue
-            if response_id == command_id:
-                full_response += response
-        return full_response.strip()
+        try:
+            command_id = self.next_request_id()
+            self.sock.sendall(self.build_command_packet(command_id, command)) # send command
+            end_id = self.next_request_id()
+            self.sock.sendall(self.build_command_packet(end_id, "")) # send blank packet, to capture any overflow from command response - detailed on wiki
+            full_response = ""
+            while True: # loop reading packets forever until empty packet recieved (end of message)
+                response_id, response_type, response = self.read_rcon_packet()
+                if self.DEBUG:
+                    print(f"[DEBUG] ID: {response_id}, Type: {response_type}, Response:\n{response.strip()}")
+                if response_id == end_id:
+                    break
+                if response_id not in (command_id, end_id):
+                    continue
+                if response_id == command_id:
+                    full_response += response
+            return full_response.strip()
+        except Exception as errormsg:
+            print(f"Connection error: {errormsg}. Attempting to reconnect...")
+            if self.connect_and_login():
+                command_id = self.next_request_id()
+                self.sock.sendall(self.build_command_packet(command_id, command)) 
+                end_id = self.next_request_id()
+                self.sock.sendall(self.build_command_packet(end_id, "")) 
+                full_response = ""
+                while True: 
+                    response_id, response_type, response = self.read_rcon_packet()
+                    if response_id == end_id:
+                        break
+                    if response_id not in (command_id, end_id):
+                        continue
+                    if response_id == command_id:
+                        full_response += response
+                return full_response.strip()
+            else:
+                return "Error: Connection lost and reconnection failed."
