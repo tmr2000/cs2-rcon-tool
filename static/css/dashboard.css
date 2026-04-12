@@ -1,0 +1,86 @@
+/* --- CONSOLE & INPUTS --- */
+#console-output {
+    background-color: #000;
+    border: 1px solid #444;
+    height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    color: #00ff00;
+    font-size: 12px;
+}
+
+.controls { display: flex; gap: 10px; margin-bottom: 20px; }
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    font-family: inherit;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+}
+
+/* --- DASHBOARD SPECIFIC BUTTONS --- */
+.btn-preset {
+    background-color: #444;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.85em;
+    height: 40px;
+}
+
+.btn-launch {
+    background-color: #2e7d32 !important;
+    padding: 10px 30px;
+    height: 40px;
+    white-space: nowrap;
+}
+.btn-launch:hover { background-color: #01ff0d !important; }
+
+.btn-clear { background-color: #444 !important; }
+
+/* --- DASHBOARD CONTAINERS --- */
+.presets-container, .launcher-row {
+    margin-top: 20px;
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.preset-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px;
+    width: 100%;
+}
+
+.launcher-controls {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.launcher-item {
+    flex: 1;
+    position: relative;
+}
+
+.launcher-item::after {
+    content: '▾';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}

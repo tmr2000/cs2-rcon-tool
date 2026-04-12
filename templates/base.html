@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2PANEL - {% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='/img/favicon.svg') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">
+            <img src="{{ url_for('static', filename='/img/favicon.svg') }}" class="logo-img">
+            CS2<span>PANEL</span></span>
+            <a href="/" class="nav-link {{ 'active' if request.path == '/' }}">Dashboard</a>
+            <a href="/map_manager" class="nav-link {{ 'active' if request.path == '/map_manager' }}">Map Manager</a>
+        </div>
+        <div class="nav-right">
+            <div id="connection-status" class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="nav-text">CONNECTING...</span>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

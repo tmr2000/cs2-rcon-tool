@@ -9,13 +9,14 @@ app = Flask(__name__)
 rcon = CS2RCON()
 
 rcon.connect_and_login()
-#if not rcon.connect_and_login():
-#    print("Failed to connect to server")
-#    exit(1)
 
 @app.route("/", methods=["GET", "POST"])
-def index():
-    return render_template("index.html")
+def dashboard():
+    return render_template("dashboard.html")
+
+@app.route("/map_manager", methods=["GET", "POST"])
+def map_manager():
+    return render_template("map_manager.html")
 
 @app.route("/send_command", methods=["GET"])
 def send_command():

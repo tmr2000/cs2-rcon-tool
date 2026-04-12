@@ -1,36 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS2PANEL - Dashboard</title>
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='/img/favicon.svg') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <span class="nav-logo">
-            <img src="{{ url_for('static', filename='/img/favicon.svg') }}" class="logo-img">
-            CS2<span>PANEL</span></span>
-            <a href="/" class="nav-link active">Dashboard</a>
-            <a href="/workshop_manager" class="nav-link">Map Manager</a>
-        </div>
-        <div class="nav-right">
-            <div id="connection-status" class="status-indicator">
-                <span class="status-dot"></span>
-                <span id="nav-text">CONNECTING...</span>
-            </div>
-        </div>
-    </nav>
-    
-    <div class="container">
-    <!-- 
-        <div class="stats-bar">
-            <div class="stat-item">Current Map: <span id="map-name">Loading...</span></div>
-            <div class="stat-item">Players: <span id="player-count">0/0</span></div>
-        </div>
-        -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+
         <div id="console-output">></div>
 
         <div class="controls">
@@ -92,6 +70,7 @@
                 <button class="btn-preset btn-launch" onclick="buildAndLaunch()">START MATCH</button>
             </div> 
         </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
-</body>
-</html>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+{% endblock %}
