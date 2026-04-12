@@ -11,7 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. Copy the rest of your files (app.py, templates/, static/, etc.)
-COPY . .
+COPY app.py .
+COPY cs2rcon.py .
+COPY templates/ ./templates/
+COPY static/ ./static/
 
 # 6. Tell Docker we are using port 5000
 EXPOSE 5000
