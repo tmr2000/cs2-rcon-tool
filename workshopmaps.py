@@ -19,7 +19,11 @@ class WorkshopMap(db.Model):
 
 def setup_workshop_db(app):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    db_path = os.path.join(basedir, 'workshop_maps.db')
+    data_path = os.path.join(basedir, 'data')
+    if not os.path.exists(data_path):
+        os.makedirs(data_path)
+        print(f"Created directory: {data_path}")
+    db_path = os.path.join(data_path, 'workshop_maps.db')
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

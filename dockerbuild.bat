@@ -8,7 +8,7 @@ echo --- STARTING BUILD ---
 docker build -t %IMAGE_NAME% .
 
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Build failed! Check your Dockerfile or code.
+    echo [ERROR] Build failed! Ensure Docker Desktop is open, then check your Dockerfile or code.
     pause
     exit /b %ERRORLEVEL%
 )
