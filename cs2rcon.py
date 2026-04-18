@@ -9,9 +9,9 @@ class CS2RCON:
 
     def __init__(self):
         self.request_id_counter = 0
-        self.password = os.getenv("CS2_PASSWORD")
-        self.port = int(os.getenv("CS2_PORT"))
-        self.server = os.getenv("CS2_SERVER")
+        self.password = os.getenv("RCON_PASSWORD")
+        self.port = int(os.getenv("RCON_PORT"))
+        self.server = os.getenv("RCON_SERVER")
         self.DEBUG = False
 
     def next_request_id(self): # incraments request_id_counter - each packet should be unqique per RCON session

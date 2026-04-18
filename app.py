@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from cs2rcon import CS2RCON
+from workshopmaps import setup_workshop_db, WorkshopMap
 import logging
 
 log = logging.getLogger('werkzeug')
@@ -7,12 +8,14 @@ log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 rcon = CS2RCON()
+setup_workshop_db(app)
 
 rcon.connect_and_login()
 
 @app.route("/", methods=["GET", "POST"])
 def dashboard():
-    return render_template("dashboard.html")
+    all_maps = WorkshopMap.query.order_by(WorkshopMap.map_name).all()
+    return render_template("dashboard.html", maps=all_maps)
 
 @app.route("/map_manager", methods=["GET", "POST"])
 def map_manager():

@@ -3,4 +3,4 @@
 __pycache__/
 .venv/
 venv/
-Docker update.txt
+workshop_maps.db

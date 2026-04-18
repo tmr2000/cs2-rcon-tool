@@ -18,7 +18,7 @@ docker login
 docker push %IMAGE_NAME%
 
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Push failed! Are you logged in? (run 'docker login')
+    echo [ERROR] Push failed!
     pause
     exit /b %ERRORLEVEL%
 )

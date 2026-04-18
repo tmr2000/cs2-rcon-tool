@@ -45,31 +45,36 @@
         <h4>Match Launcher</h4>
             <div class="launcher-controls">
                 <div class="launcher-item">
-                    <select id="launchMap">
-                        <option value="" disabled selected hidden>Choose Map...</option>
-                        <option value="de_ancient">Ancient</option>
-                        <option value="de_anubis">Anubis</option>
-                        <option value="de_dust2">Dust II</option>
-                        <option value="de_inferno">Inferno</option>
-                        <option value="de_mirage">Mirage</option>
-                        <option value="de_nuke">Nuke</option>
-                        <option value="de_overpass">Overpass</option>
-                        <option value="de_train">Train</option>
-                        <option value="de_vertigo">Vertigo</option>
+                    <select id="launchMode" onchange="syncMapToMode()">
+                        <option value="" disabled selected hidden>Select Gamemode</option>
+                        <option value="0,1" data-type="comp">Competitive</option>
+                        <option value="0,2" data-type="wing">Wingman</option>
+                        <option value="0,0" data-type="casual">Casual</option>
+                        <option value="1,2" data-type="dm">Deathmatch</option>
+                        <option value="1,0" data-type="ar">Arms Race</option>
                     </select>
-                </div> 
+                </div>
                 <div class="launcher-item">
-                    <select id="launchMode">
-                        <option value="" disabled selected hidden>Choose Mode...</option>
-                        <option value="0,1">Competitive</option>
-                        <option value="0,0">Casual</option>
-                        <option value="1,2">Deathmatch</option>
-                        <option value="1,0">Arms Race</option>
+                    <select id="launchMap" disabled>
+                        <option value="" id="mapPlaceholder" disabled selected hidden>Select Map</option>
+                        {% for map in maps %}
+                            <option value="{{ map.map_alias }}" 
+                                    data-comp="{{ map.is_competitive }}"
+                                    data-wing="{{ map.is_wingman }}"
+                                    data-casual="{{ map.is_casual }}"
+                                    data-dm="{{ map.is_deathmatch }}"
+                                    data-ar="{{ map.is_armsrace }}">
+                                {{ map.map_name }}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div> 
-                <button class="btn-preset btn-launch" onclick="buildAndLaunch()">START MATCH</button>
+
+                <div> 
+                    <button class="btn-preset btn-launch" onclick="buildAndLaunch()">START MATCH</button>
+                </div>
             </div> 
-        </div>
+        </div>    
 {% endblock %}
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>

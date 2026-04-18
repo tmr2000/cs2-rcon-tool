@@ -37,6 +37,7 @@ function buildAndLaunch() {
 
     document.getElementById('launchMap').selectedIndex = 0;
     document.getElementById('launchMode').selectedIndex = 0;
+    syncMapToMode();
 }
 
 // Clear button logic
@@ -45,4 +46,32 @@ if (clearBtn) {
     clearBtn.addEventListener('click', () => {
         document.getElementById('console-output').innerHTML = '>';
     });
+}
+
+function syncMapToMode() {
+    const modeSelect = document.getElementById('launchMode');
+    const mapSelect = document.getElementById('launchMap');
+    if (!modeSelect.value) {
+        mapSelect.disabled = true;
+        return;
+    }
+    mapSelect.disabled = false;
+    const selectedType = modeSelect.options[modeSelect.selectedIndex].getAttribute('data-type');
+    let currentMapStillValid = false;
+    Array.from(mapSelect.options).forEach(opt => {
+        if (opt.value === "") return; // Skip placeholder
+        const attrVal = opt.getAttribute(`data-${selectedType}`);
+        const isSupported = (attrVal === 'True' || attrVal === 'true' || attrVal === '1');
+        if (isSupported) {
+            opt.style.display = 'block';
+            opt.disabled = false;
+            if (opt.selected) currentMapStillValid = true;
+        } else {
+            opt.style.display = 'none';
+            opt.disabled = true;
+        }
+    });
+    if (!currentMapStillValid && mapSelect.selectedIndex !== 0) {
+        mapSelect.selectedIndex = 0;
+    }
 }
