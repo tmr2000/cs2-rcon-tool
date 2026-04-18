@@ -14,7 +14,7 @@ rcon.connect_and_login()
 
 @app.route("/", methods=["GET", "POST"])
 def dashboard():
-    all_maps = WorkshopMap.query.order_by(WorkshopMap.map_name).all()
+    all_maps = WorkshopMap.query.order_by(WorkshopMap.map_name.asc()).all()
     return render_template("dashboard.html", maps=all_maps)
 
 @app.route("/map_manager", methods=["GET", "POST"])
