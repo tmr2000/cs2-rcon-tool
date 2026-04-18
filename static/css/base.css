@@ -73,7 +73,14 @@ select {
 }
 
 select option { background-color: #222 !important; color: white !important; }
-select:hover { background-color: #ff7417 !important; }
+select:hover:not(:disabled) { background-color: #ff7417 !important; }
+
+select:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: #333 !important;
+}
+
 
 h4 { margin: 0; color: #cf5e14; font-size: 0.85em; text-transform: uppercase; }
 
