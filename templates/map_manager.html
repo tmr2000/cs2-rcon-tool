@@ -7,10 +7,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="manager-container">
+    <div class="map-manager-card">
         <h3>Add Workshop Map</h3>
+        <p class="helper-text">Enter the Steam Workshop ID to import a new map.</p>
         <div class="input-group">
-            <input type="text" id="wsInput" placeholder="Enter Workshop ID">
+            <input type="text" id="wsInput" placeholder="Enter Workshop ID" onkeydown="if(event.key==='Enter') submitMap()">
             <button onclick="submitMap()">Add Map</button>
         </div>
         <div id="statusMessage"></div>
