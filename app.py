@@ -82,12 +82,12 @@ def add_workshop():
         if 'cs2' not in tags:
             return jsonify({
                 "success": False, 
-                "error": "This appears to be a CS:GO or non-CS2 map. Only CS2 Workshop maps are supported."
+                "error": "Invalid Workshop ID. Please ensure this is a CS2 Workshop Map."
             }), 400
 
         #real_name = details.get('title', f"Workshop ({ws_id})")
         steam_title = details.get('title', 'Unknown Map')
-        real_name = f"{steam_title} ({ws_id})"
+        real_name = f"{steam_title}"
         preview_url = details.get('preview_url', "")
 
 
@@ -131,6 +131,66 @@ def add_workshop():
     except Exception as e:
         print(f"Steam API Error: {e}")
         return jsonify({"error": "Could not fetch map info from Steam"}), 500
+
+@app.route("/get_workshop_maps")
+def get_workshop_maps():
+    maps = WorkshopMap.query.filter_by(is_officialmap=False).order_by(WorkshopMap.map_name.asc()).all()
+    # Convert the database objects into a list of dictionaries
+    return jsonify([{
+        "id": m.map_alias,
+        "name": m.map_name,
+        "image": m.image_url
+    } for m in maps])
+
+@app.route("/delete_workshop_map/<map_id>", methods=['DELETE'])
+def delete_workshop_map(map_id):
+    try:
+        # Find the map in the database
+        map_to_delete = WorkshopMap.query.filter_by(map_alias=map_id).first()
+        
+        if map_to_delete:
+            if map_to_delete.image_url:
+                filename = map_to_delete.image_url.split('/')[-1]
+                file_path = os.path.join(app.root_path, 'data', 'workshop_images', filename)
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    print(f"Deleted image file: {file_path}")
+            db.session.delete(map_to_delete)
+            db.session.commit()
+            return jsonify({"success": True, "message": "Map removed"})
+        
+        return jsonify({"success": False, "error": "Map not found"}), 404
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/update_map_name/<map_id>", methods=['POST'])
+def update_map_name(map_id):
+    try:
+        # 1. Get the new name from the JSON body sent by JS
+        data = request.json
+        new_name = data.get('new_name')
+        
+        if not new_name:
+            return jsonify({"success": False, "error": "No name provided"}), 400
+
+        # 2. Find the map using the workshop ID (map_alias)
+        map_record = WorkshopMap.query.filter_by(map_alias=map_id).first()
+        
+        if map_record:
+            # 3. Update the field and save
+            map_record.map_name = new_name
+            db.session.commit()
+            return jsonify({"success": True})
+        
+        return jsonify({"success": False, "error": "Map not found"}), 404
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Update Error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
