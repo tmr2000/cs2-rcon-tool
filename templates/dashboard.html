@@ -52,6 +52,7 @@
                         <option value="0,0" data-type="casual">Casual</option>
                         <option value="1,2" data-type="dm">Deathmatch</option>
                         <option value="1,0" data-type="ar">Arms Race</option>
+                        <option value="3,0" data-type="cm">Custom</option>
                     </select>
                 </div>
                 <div class="launcher-item">
@@ -63,7 +64,8 @@
                                     data-wing="{{ map.is_wingman }}"
                                     data-casual="{{ map.is_casual }}"
                                     data-dm="{{ map.is_deathmatch }}"
-                                    data-ar="{{ map.is_armsrace }}">
+                                    data-ar="{{ map.is_armsrace }}"
+                                    data-cm="{{ map.is_custom }}">
                                 {{ map.map_name }}
                             </option>
                         {% endfor %}

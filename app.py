@@ -85,7 +85,6 @@ def add_workshop():
                 "error": "Invalid Workshop ID. Please ensure this is a CS2 Workshop Map."
             }), 400
 
-        #real_name = details.get('title', f"Workshop ({ws_id})")
         steam_title = details.get('title', 'Unknown Map')
         real_name = f"{steam_title}"
         preview_url = details.get('preview_url', "")
@@ -114,7 +113,8 @@ def add_workshop():
                 is_deathmatch  = 'deathmatch' in tags,
                 is_armsrace    = 'armsrace' in tags or 'arms race' in tags,
                 is_competitive = 'competitive' in tags or 'classic' in tags,
-                is_casual      = 'casual' in tags or 'classic' in tags
+                is_casual      = 'casual' in tags or 'classic' in tags,
+                is_custom      = 'custom' in tags
             )
             db.session.add(new_map)
             db.session.commit()

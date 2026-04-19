@@ -15,6 +15,7 @@ class WorkshopMap(db.Model):
     is_casual = db.Column(db.Boolean, default=False)
     is_deathmatch = db.Column(db.Boolean, default=False)
     is_armsrace = db.Column(db.Boolean, default=False)
+    is_custom = db.Column(db.Boolean, default=False)
 
 def setup_workshop_db(app):
     basedir = os.path.abspath(os.path.dirname(__file__))
