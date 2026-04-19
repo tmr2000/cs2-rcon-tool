@@ -40,7 +40,8 @@ input[type="text"] {
 }
 .btn-launch:hover { background-color: #01ff0d !important; }
 
-.btn-clear { background-color: #444 !important; }
+.btn-clear { background-color: #444}
+.btn-clear:hover { background-color: #ff7417; }
 
 /* --- DASHBOARD CONTAINERS --- */
 .presets-container, .launcher-row {

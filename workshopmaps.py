@@ -6,7 +6,6 @@ db = SQLAlchemy()
 
 class WorkshopMap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    workshop_id = db.Column(db.String(20), unique=True, nullable=True)
     map_name = db.Column(db.String(100), unique=True, nullable=False)
     map_alias = db.Column(db.String(100), unique=True, nullable=False)
     image_url = db.Column(db.String(255))
@@ -28,14 +27,14 @@ def setup_workshop_db(app):
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    if not os.path.exists(db_path):
-        with app.app_context():
+
+    with app.app_context():
+        if not os.path.exists(db_path):
             db.create_all()
-            seed_official_maps()
-        print(f"Success: Database created at {db_path}")
-        
-    else:
-        print("Database already exists.")
+            print(f"Success: Database created at {db_path}")
+        else:
+            print("Database already exists.")
+        seed_official_maps()
 
 def seed_official_maps():
     """Run this to fill the DB with the basic CS2 maps."""

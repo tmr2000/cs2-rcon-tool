@@ -7,10 +7,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="temp-box">
-        <h4>Steam Workshop Map Manager</h4>
-        <p style="color: #888; font-size: 0.9em;">Map management features coming soon...</p>
-        
+    <div class="manager-container">
+        <h3>Add Workshop Map</h3>
+        <div class="input-group">
+            <input type="text" id="wsInput" placeholder="Enter Workshop ID">
+            <button onclick="submitMap()">Add Map</button>
+        </div>
+        <div id="statusMessage"></div>
     </div>
 {% endblock %}
 {% block scripts %}

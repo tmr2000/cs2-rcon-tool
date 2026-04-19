@@ -26,21 +26,26 @@ function runPreset(cmd) {
 function buildAndLaunch() {
     const map = document.getElementById('launchMap').value;
     const modeValue = document.getElementById('launchMode').value;
-    
+
     if (!map || !modeValue) {
         alert("Select map and mode!");
         return;
     }
 
     const [type, mode] = modeValue.split(',');
-    runPreset(`game_type ${type}; game_mode ${mode}; map ${map}`);
+    let map_type = "map";
+
+    if (/^\d+$/.test(map)) {
+        map_type = "host_workshop_map";
+    }
+
+    runPreset(`game_type ${type}; game_mode ${mode}; ${map_type} ${map}`);
 
     document.getElementById('launchMap').selectedIndex = 0;
     document.getElementById('launchMode').selectedIndex = 0;
     syncMapToMode();
 }
 
-// Clear button logic
 const clearBtn = document.getElementById('clearBtn');
 if (clearBtn) {
     clearBtn.addEventListener('click', () => {
