@@ -33,6 +33,12 @@ body {
     backdrop-filter: blur(5px);
 }
 
+#nav-text {
+    display: inline-block;
+    width: 150px;
+    text-align: left;
+}
+
 .nav-left, .nav-right { display: flex; align-items: center; gap: 25px; }
 
 .nav-logo {

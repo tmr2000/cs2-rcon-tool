@@ -2,3 +2,4 @@ python-dotenv
 Flask
 flask-sqlalchemy
 requests
+python-a2s

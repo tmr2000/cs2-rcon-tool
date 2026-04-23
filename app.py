@@ -4,10 +4,13 @@ from workshopmaps import setup_workshop_db, WorkshopMap, db
 import logging
 import requests
 import os
+import a2s
 from dotenv import load_dotenv
 
 load_dotenv()
 STEAM_WEB_API_KEY = os.getenv("STEAM_WEB_API_KEY")
+RCON_SERVER = os.getenv("RCON_SERVER")
+RCON_PORT = os.getenv("RCON_PORT")
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 WORKSHOP_MAP_IMAGES_FOLDER = 'data/workshop_images'
@@ -32,6 +35,21 @@ def map_manager():
 @app.route('/workshop_images/<filename>')
 def serve_workshop_image(filename):
     return send_from_directory(WORKSHOP_MAP_IMAGES_FOLDER, filename)
+
+@app.route("/server_status")
+def server_status():
+    try:
+        address = (RCON_SERVER, int(RCON_PORT))
+        info = a2s.info(address, timeout=1.0)
+        return jsonify({
+            "online": True,
+            "name": info.server_name,
+            "map": info.map_name,
+            "players": info.player_count,
+            "max_players": info.max_players
+        })
+    except Exception:
+        return jsonify({"online": False}), 200
 
 @app.route("/send_command", methods=["GET"])
 def send_command():

@@ -10,6 +10,7 @@ async function transmitRcon(command) {
     }
 }
 
+//Currently Unused - may be useful later
 async function silentTransmit(command) {
     try {
         const response = await fetch(`/send_command?cmd=${encodeURIComponent(command)}`);
@@ -19,26 +20,43 @@ async function silentTransmit(command) {
     }
 }
 
-// Global Status Updater
 async function updateLiveStats() {
     const connectionBox = document.getElementById('connection-status');
     const navText = document.getElementById('nav-text');
 
-    const data = await silentTransmit('status');
+    try {
+        const response = await fetch('/server_status');
+        const data = await response.json();
 
-    if (data && data.response && !data.response.startsWith("Error:")) {
-        connectionBox.className = "status-indicator online";
-        navText.innerText = "SERVER CONNECTED";
-        navText.style.color = "#00ff00";
-        return data.response; // Return raw data in case other scripts want it
-    } else {
+        const serverEvent = new CustomEvent('serverUpdate', { detail: data });
+        document.dispatchEvent(serverEvent);
+
+        if (data && data.online) {
+            connectionBox.className = "status-indicator online";
+            navText.innerText = "SERVER CONNECTED";
+            navText.style.color = "#00ff00";
+        } 
+        else {
+            connectionBox.className = "status-indicator offline";
+            navText.innerText = "SERVER DISCONNECTED";
+            navText.style.color = "red";
+        }
+    } 
+    catch (err) {
         connectionBox.className = "status-indicator offline";
         navText.innerText = "SERVER DISCONNECTED";
         navText.style.color = "red";
-        return null;
     }
 }
 
-// Start the heartbeat
-setInterval(updateLiveStats, 5000);
 updateLiveStats();
+setInterval(() => {
+    if (!document.hidden) {
+        updateLiveStats();
+    }
+}, 5000);
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+        updateLiveStats();
+    }
+});
