@@ -36,14 +36,22 @@ input[type="text"] {
     background-color: #444;
     font-family: 'Segoe UI', sans-serif;
     font-size: 0.85em;
-    height: 40px;
+    height: auto;
+    min-height: 40px;
+    padding: 8px 5px;
+    font-size: 0.8rem;
+    line-height: 1.2;
 }
 
 .btn-launch {
     background-color: #2e7d32 !important;
     padding: 10px 30px;
-    height: 40px;
+    height: auto;
+    min-height: 40px;
     white-space: nowrap;
+        padding: 8px 5px;
+    font-size: 0.8rem;
+    line-height: 1.2;
 }
 .btn-launch:hover { background-color: #01ff0d !important; }
 
@@ -67,7 +75,7 @@ input[type="text"] {
 
 .preset-group {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
     width: 100%;
 }
@@ -92,4 +100,16 @@ input[type="text"] {
     transform: translateY(-50%);
     color: #888;
     pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    #console-output {
+        height: 250px;   /* Give more room for buttons on screen */
+        font-size: 10px; /* Smaller font for console logs */
+    }
+    
+    .launcher-controls {
+        flex-direction: column; /* Stack Map/Mode/Start vertically */
+        align-items: stretch;
+    }
 }
