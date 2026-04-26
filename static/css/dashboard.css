@@ -75,7 +75,7 @@ input[type="text"] {
 
 .preset-group {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 200px));
     gap: 10px;
     width: 100%;
 }
@@ -104,12 +104,12 @@ input[type="text"] {
 
 @media (max-width: 600px) {
     #console-output {
-        height: 250px;   /* Give more room for buttons on screen */
-        font-size: 10px; /* Smaller font for console logs */
+        height: 250px;
+        font-size: 10px;
     }
     
     .launcher-controls {
-        flex-direction: column; /* Stack Map/Mode/Start vertically */
+        flex-direction: column;
         align-items: stretch;
     }
 }

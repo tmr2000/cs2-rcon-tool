@@ -26,9 +26,12 @@ services:
       - "5000:5000"
     restart: unless-stopped
     environment:
-      RCON_IP: "CS2 Server IP Address"
-      RCON_PORT: "27015"
-      RCON_PASSWORD: "Your_RCON_Password"
+      RCON_SERVER: "SERVER IP"
+      RCON_PORT: "SERVER PORT"
+      RCON_PASSWORD: "SERVER PASSWORD"
+      STEAM_WEB_API_KEY: "STEAM WEB API KEY - https://steamcommunity.com/dev/apikey"
+    volumes:
+      - "/pathtocs2installfolder/app/data:/app/data" 
 ```
 
 Setup Instructions:
