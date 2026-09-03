@@ -45,6 +45,13 @@
         <h4>Match Launcher</h4>
             <div class="launcher-controls">
                 <div class="launcher-item">
+                    <select id="mapTypeFilter" onchange="syncMapToMode()">
+                        <option value="all" selected>All Maps</option>
+                        <option value="official">Official Maps</option>
+                        <option value="workshop">Workshop Maps</option>
+                    </select>
+                </div>
+                <div class="launcher-item">
                     <select id="launchMode" onchange="syncMapToMode()">
                         <option value="" disabled selected hidden>Select Gamemode</option>
                         <option value="0,1" data-type="comp">Competitive</option>
@@ -65,7 +72,8 @@
                                     data-casual="{{ map.is_casual }}"
                                     data-dm="{{ map.is_deathmatch }}"
                                     data-ar="{{ map.is_armsrace }}"
-                                    data-cm="{{ map.is_custom }}">
+                                    data-cm="{{ map.is_custom }}"
+                                    data-official="{{ map.is_officialmap }}">
                                 {{ map.map_name }}
                             </option>
                         {% endfor %}

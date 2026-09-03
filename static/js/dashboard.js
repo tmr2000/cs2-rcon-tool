@@ -56,18 +56,41 @@ if (clearBtn) {
 function syncMapToMode() {
     const modeSelect = document.getElementById('launchMode');
     const mapSelect = document.getElementById('launchMap');
+    const filterSelect = document.getElementById('mapTypeFilter'); // <-- 1. Grab the filter element
+
+    // 2. Safely get its value (defaults to 'all' if element isn't found yet)
+    const mapFilter = filterSelect ? filterSelect.value : 'all'; 
+
     if (!modeSelect.value) {
         mapSelect.disabled = true;
         return;
     }
+    
     mapSelect.disabled = false;
     const selectedType = modeSelect.options[modeSelect.selectedIndex].getAttribute('data-type');
     let currentMapStillValid = false;
+
     Array.from(mapSelect.options).forEach(opt => {
         if (opt.value === "") return; // Skip placeholder
+
+        // Check game mode support
         const attrVal = opt.getAttribute(`data-${selectedType}`);
         const isSupported = (attrVal === 'True' || attrVal === 'true' || attrVal === '1');
-        if (isSupported) {
+
+        // Check official vs workshop status
+        const officialAttr = opt.getAttribute('data-official');
+        const isOfficial = (officialAttr === '1' || officialAttr === 'true' || officialAttr === 'True');
+        
+        // 3. Evaluate the filter toggle correctly using our mapFilter variable
+        let matchesFilter = true;
+        if (mapFilter === 'official') {
+            matchesFilter = isOfficial;          // Must be official (1)
+        } else if (mapFilter === 'workshop') {
+            matchesFilter = !isOfficial;         // Must be workshop/custom (0)
+        }
+
+        // 4. Map must pass BOTH the game mode and the filter toggle
+        if (isSupported && matchesFilter) {
             opt.style.display = 'block';
             opt.disabled = false;
             if (opt.selected) currentMapStillValid = true;
@@ -76,6 +99,7 @@ function syncMapToMode() {
             opt.disabled = true;
         }
     });
+
     if (!currentMapStillValid && mapSelect.selectedIndex !== 0) {
         mapSelect.selectedIndex = 0;
     }
