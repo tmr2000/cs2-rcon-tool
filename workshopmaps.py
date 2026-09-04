@@ -96,15 +96,6 @@ def seed_official_maps():
             "image_url": "/static/img/map_images/official/cs_office.png"
         },
         {
-            "map_name": "Italy",
-            "map_alias": "cs_italy",
-            "is_officialmap": True,
-            "is_competitive": True,
-            "is_casual": True,
-            "is_deathmatch": True,
-            "image_url": "/static/img/map_images/official/cs_italy.png"
-        },
-        {
             "map_name": "Ancient",
             "map_alias": "de_ancient",
             "is_officialmap": True,
@@ -140,15 +131,6 @@ def seed_official_maps():
             "is_deathmatch": True,
             "is_wingman": True,
             "image_url": "/static/img/map_images/official/de_inferno.png"
-        },
-        {
-            "map_name": "Dust II",
-            "map_alias": "de_dust2",
-            "is_officialmap": True,
-            "is_competitive": True,
-            "is_casual": True,
-            "is_deathmatch": True,
-            "image_url": "/static/img/map_images/official/de_dust2.png"
         },
         {
             "map_name": "Mirage",

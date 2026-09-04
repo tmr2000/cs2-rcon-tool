@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, Blueprint
 from cs2rcon import CS2RCON
 from workshopmaps import setup_workshop_db, WorkshopMap, db
 import logging
@@ -172,7 +172,6 @@ def delete_workshop_map(map_id):
                 file_path = os.path.join(app.root_path, 'data', 'workshop_images', filename)
                 if os.path.exists(file_path):
                     os.remove(file_path)
-                    print(f"Deleted image file: {file_path}")
             db.session.delete(map_to_delete)
             db.session.commit()
             return jsonify({"success": True, "message": "Map removed"})
@@ -208,8 +207,27 @@ def update_map_name(map_id):
         db.session.rollback()
         print(f"Update Error: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
-    
 
+latest_game_state = {}
+
+@app.route('/gsi', methods=['POST'])
+def gsi_receiver():
+    global latest_game_state
+    data = request.json
+    if not data:
+        return jsonify({"status": "ignored"}), 400
+        
+    latest_game_state = data
+    print("Received GSI data:", data.get('map', {}).get('name'))
+    return jsonify({"status": "success"}), 200
+
+@app.route('/get_gsi_state', methods=['GET'])
+def get_gsi_state():
+    return jsonify(latest_game_state)
+
+@app.route('/live_dashboard')
+def live_dashboard():
+    return render_template('live_dashboard.html')
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 

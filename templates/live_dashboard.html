@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Live Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/live_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="scoreboard-container">
+        <!-- Match Header -->
+        <div class="match-header">
+            <span id="gameModeMap">Casual | Loading...</span>
+            <span id="matchTimer">--:--</span>
+        </div>
+
+        <div class="teams-wrapper">
+            <!-- CT Team Table -->
+            <div class="team-section ct-team">
+                <div class="team-header">
+                    <h2>COUNTER-TERRORISTS</h2>
+                    <span id="ctScore" class="team-score">0</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Cash</th>
+                            <th>K</th>
+                            <th>A</th>
+                            <th>D</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ctPlayerTable">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- T Team Table -->
+            <div class="team-section t-team">
+                <div class="team-header">
+                    <h2>TERRORISTS</h2>
+                    <span id="tScore" class="team-score">0</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Cash</th>
+                            <th>K</th>
+                            <th>A</th>
+                            <th>D</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tPlayerTable">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/live_dashboard.js') }}" defer></script>
+{% endblock %}
